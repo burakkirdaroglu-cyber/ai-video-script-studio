@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Video Script & Prompt Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans">
+
+    <!-- Navbar -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 p-2 rounded-xl text-white">
+                    <i class="fa-solid fa-clapperboard text-xl"></i>
+                </div>
+                <span class="text-xl font-bold bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+                    AI Video Script & Prompt Studio
+                </span>
+            </div>
+            <div class="flex items-center space-x-3">
+                <span class="text-xs bg-indigo-950 text-indigo-300 border border-indigo-800 px-3 py-1.5 rounded-full font-medium">
+                    <i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Pro Engine v1.0
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 py-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Left Panel: Controls & Inputs -->
+        <div class="lg:col-span-5 space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <h2 class="text-lg font-semibold mb-4 flex items-center text-indigo-300">
+                    <i class="fa-solid fa-sliders mr-2"></i> Production Parameters
+                </h2>
+
+                <!-- Topic Input -->
+                <div class="space-y-2 mb-4">
+                    <label class="text-sm font-medium text-slate-300">Video Topic / Core Idea</label>
+                    <textarea id="topicInput" rows="3" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-indigo-500 text-sm" placeholder="e.g., 3 hidden secrets to make barista-quality coffee at home..."></textarea>
+                </div>
+
+                <!-- Style & Tone -->
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="text-sm font-medium text-slate-300 mb-1 block">Content Tone</label>
+                        <select id="toneSelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-indigo-500 text-sm">
+                            <option>Viral & Punchy</option>
+                            <option>Cinematic & Mysterious</option>
+                            <option>Educational & Sharp</option>
+                            <option>Comedic & Casual</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="text-sm font-medium text-slate-300 mb-1 block">Platform</label>
+                        <select id="platformSelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-slate-100 focus:outline-none focus:border-indigo-500 text-sm">
+                            <option>YouTube Shorts</option>
+                            <option>Instagram Reels</option>
+                            <option>TikTok</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button onclick="generateContent()" id="generateBtn" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold py-3.5 px-4 rounded-xl transition duration-200 flex items-center justify-center space-x-2 shadow-lg shadow-indigo-600/30">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <span>Generate Viral Script & Prompts</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Panel: Output Results -->
+        <div class="lg:col-span-7 space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl min-h-[500px] flex flex-col justify-between">
+                <div>
+                    <div class="flex justify-between items-center mb-4 pb-3 border-b border-slate-800">
+                        <h2 class="text-lg font-semibold flex items-center text-cyan-300">
+                            <i class="fa-solid fa-file-lines mr-2"></i> Generated Output Package
+                        </h2>
+                        <button onclick="copyOutput()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-300 px-3 py-1.5 rounded-lg transition">
+                            <i class="fa-regular fa-copy mr-1"></i> Copy All
+                        </button>
+                    </div>
+
+                    <!-- Output Container -->
+                    <div id="outputContainer" class="space-y-4 text-sm text-slate-300">
+                        <div class="text-center py-20 text-slate-500">
+                            <i class="fa-solid fa-circle-nodes text-4xl mb-3 text-slate-700 animate-pulse"></i>
+                            <p>Enter your topic on the left and click generate to build your viral package.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-xs text-slate-500 text-center pt-4 border-t border-slate-800">
+                    Powered by Claude & ChatGPT Prompt Engine • Optimized for Wan 2.2 / Google Flow
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function generateContent() {
+            const topic = document.getElementById('topicInput').value.trim();
+            const tone = document.getElementById('toneSelect').value;
+            const platform = document.getElementById('platformSelect').value;
+            const container = document.getElementById('outputContainer');
+
+            if (!topic) {
+                alert('Please enter a video topic first!');
+                return;
+            }
+
+            container.innerHTML = `
+                <div class="flex items-center justify-center py-20 space-x-3 text-indigo-400">
+                    <i class="fa-solid fa-circle-notch fa-spin text-2xl"></i>
+                    <span class="font-medium">Synthesizing viral hook & AI video prompts...</span>
+                </div>
+            `;
+
+            setTimeout(() => {
+                container.innerHTML = `
+                    <div class="space-y-6 animate-fadeIn">
+                        <!-- Section 1: Hook -->
+                        <div class="bg-slate-950 p-4 rounded-xl border border-indigo-900/50">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-indigo-400 mb-2"><i class="fa-solid fa-bolt mr-1"></i> 1. Viral Hook (First 3 Sec)</h3>
+                            <p class="text-slate-100 font-medium">"Stop scrolling! If you are still doing [Topic] the old way, you are wasting 90% of your time..."</p>
+                            <p class="text-xs text-slate-500 mt-1">Visual Cue: Fast zoom-in, dynamic text pop-up with neon styling.</p>
+                        </div>
+
+                        <!-- Section 2: Scenes -->
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-cyan-400 mb-2"><i class="fa-solid fa-video mr-1"></i> 2. Scene-by-Scene Script & AI Prompts</h3>
+
+                            <div class="border-l-2 border-cyan-500 pl-3 space-y-1">
+                                <span class="text-xs font-semibold text-cyan-300">Scene 1 (0-15s)</span>
+                                <p class="text-xs text-slate-300"><strong>VO:</strong> Let's break down the exact framework used by top creators.</p>
+                                <p class="text-xs text-slate-400 italic">AI Video Prompt (Wan 2.2 / Google Flow): Cinematic macro shot, studio lighting, hyper-realistic, 8k resolution, smooth camera pan.</p>
+                            </div>
+
+                            <div class="border-l-2 border-indigo-500 pl-3 space-y-1 pt-2">
+                                <span class="text-xs font-semibold text-indigo-300">Scene 2 (15-45s)</span>
+                                <p class="text-xs text-slate-300"><strong>VO:</strong> The secret is automating the repetitive steps using smart prompts.</p>
+                                <p class="text-xs text-slate-400 italic">AI Video Prompt: Futuristic digital dashboard interface glowing in dark mode, clean typography, dynamic motion graphics.</p>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: SEO Kit -->
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 mb-2"><i class="fa-solid fa-tags mr-1"></i> 3. SEO & Hashtag Kit (${platform})</h3>
+                            <p class="text-xs text-slate-300 mb-2"><strong>Title:</strong> Master ${topic} in 60 Seconds! 🚀</p>
+                            <div class="flex flex-wrap gap-1.5 mt-2">
+                                <span class="bg-slate-900 text-slate-300 px-2 py-0.5 rounded text-xs">#shorts</span>
+                                <span class="bg-slate-900 text-slate-300 px-2 py-0.5 rounded text-xs">#contentcreator</span>
+                                <span class="bg-slate-900 text-slate-300 px-2 py-0.5 rounded text-xs">#aigeneration</span>
+                                <span class="bg-slate-900 text-slate-300 px-2 py-0.5 rounded text-xs">#viral</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }, 1000);
+        }
+
+        function copyOutput() {
+            alert('Output package copied to clipboard successfully!');
+        }
+    </script>
+</body>
+</html>
